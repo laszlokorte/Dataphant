@@ -36,9 +36,11 @@ Todo List:
  * Improve the use of the identitymap when loading many-to-one relationships
  * Improve ArrayAccess for Collection class
  * Improve performance
+  * Any chance to benefit from caching?
  * Feature: PostgrSql adapter
  * Improve Property type classes
  * Allow to ORDER BY columns of joined tables
  * Documentation
  * Make the whole system compatible with Symfony2 ServiceContainer
+  * Try to move all static methods and variables from the ModelBase class into a ModelDefintion object
  * Feature: Lifecycle callbacks
