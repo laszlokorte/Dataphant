@@ -13,7 +13,9 @@ class DeletedStateTest extends BaseTestCase
 	public function setUp()
 	{
 		$adapterRegistry = AdapterRegistry::getInstance();
-		$adapterRegistry->registerAdapter(new SqliteAdapter('default'));
+		$sqlAdapter = new SqliteAdapter('default');
+		$sqlAdapter->setDebugMode(TRUE);
+		$adapterRegistry->registerAdapter($sqlAdapter);
 		$modelClass = $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 		$this->record = $modelClass::build();
 	}

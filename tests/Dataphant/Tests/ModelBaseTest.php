@@ -490,7 +490,7 @@ class ModelBaseTest extends BaseTestCase
 		$userOne->save();
 		$this->assertTrue($user->isClean());
 
-		$sql = 'UPDATE "users" SET "users"."nickname"=\'HubaBuba\' WHERE (("users"."id" = 4))';
+		$sql = 'UPDATE "users" SET "nickname"=\'HubaBuba\' WHERE (("users"."id" = 4))';
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 		$userOne->id = 23;
@@ -500,7 +500,7 @@ class ModelBaseTest extends BaseTestCase
 		$this->assertFalse(isset($identityMap['id:4']));
 		$this->assertTrue(isset($identityMap['id:23']));
 
-		$sql = 'UPDATE "users" SET "users"."id"=23 WHERE (("users"."id" = 4))';
+		$sql = 'UPDATE "users" SET "id"=23 WHERE (("users"."id" = 4))';
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 
@@ -520,9 +520,9 @@ class ModelBaseTest extends BaseTestCase
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 		$this->assertTrue($someNewUser->isClean());
 		$this->assertFalse($someNewUser->isNew());
-		$this->assertSame(5, $someNewUser->id);
+		$this->assertSame(24, $someNewUser->id);
 
-		$this->assertTrue(isset($identityMap['id:5']));
+		$this->assertTrue(isset($identityMap['id:24']));
 
 
 		/*
@@ -534,7 +534,7 @@ class ModelBaseTest extends BaseTestCase
 		$result = $someNewUser->save();
 		$this->assertTrue($result);
 		$this->assertTrue($someNewUser->isClean());
-		$sql = "UPDATE \"users\" SET \"users\".\"nickname\"='Peter' WHERE ((\"users\".\"id\" = 5))";
+		$sql = "UPDATE \"users\" SET \"nickname\"='Peter' WHERE ((\"users\".\"id\" = 24))";
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 
@@ -544,10 +544,10 @@ class ModelBaseTest extends BaseTestCase
 		*/
 		$someNewUser->destroy();
 		$this->assertTrue($someNewUser->isDestroyed());
-		$sql = "DELETE FROM \"users\" WHERE ((\"users\".\"id\" = 5))";
+		$sql = "DELETE FROM \"users\" WHERE ((\"users\".\"id\" = 24))";
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
-		$userStillThere = $connection->query('SELECT * FROM users WHERE id = 5');
+		$userStillThere = $connection->query('SELECT * FROM users WHERE id = 24');
 		$this->assertEmpty($userStillThere->fetchAll());
 
 
@@ -584,7 +584,7 @@ class ModelBaseTest extends BaseTestCase
 
 		$user->save();
 
-		$sql = "UPDATE \"users\" SET \"users\".\"description\"='Ein cooler User' WHERE ((\"users\".\"id\" = 1))";
+		$sql = "UPDATE \"users\" SET \"description\"='Ein cooler User' WHERE ((\"users\".\"id\" = 1))";
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 
@@ -625,7 +625,7 @@ class ModelBaseTest extends BaseTestCase
 		$comment->user = $johnLocke;
 		$comment->save();
 
-		$sql = "UPDATE \"comments\" SET \"comments\".\"user_id\"=6 WHERE ((\"comments\".\"id\" = 1))";
+		$sql = "UPDATE \"comments\" SET \"user_id\"=25 WHERE ((\"comments\".\"id\" = 1))";
 		$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 
@@ -814,7 +814,7 @@ class ModelBaseTest extends BaseTestCase
 				$tree .= "--Comment:" . $comment->id . PHP_EOL;
 				if($j++ === 0)
 				{
-					$sql = "SELECT \"comments\".\"id\" AS \"id\", \"comments\".\"user_id\" AS \"user_id\" FROM \"comments\" WHERE (\"comments\".\"user_id\" IN (2, 3, 4, 5, 6, 7))";
+					$sql = "SELECT \"comments\".\"id\" AS \"id\", \"comments\".\"user_id\" AS \"user_id\" FROM \"comments\" WHERE (\"comments\".\"user_id\" IN (2, 3, 23, 24, 25, 26))";
 					$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 				}
 				foreach($comment->replies->filter($replyModel::id()->in(3,5)) AS $reply)
@@ -823,7 +823,7 @@ class ModelBaseTest extends BaseTestCase
 					$countReplies++;
 					if($k++ === 0)
 					{
-						$sql = "SELECT \"replys\".\"id\" AS \"id\", \"replys\".\"comment_id\" AS \"comment_id\" FROM \"replys\" WHERE (\"replys\".\"comment_id\" IN (2, 3, 4, 5, 109, 110))";
+						$sql = "SELECT \"replys\".\"id\" AS \"id\", \"replys\".\"comment_id\" AS \"comment_id\" FROM \"replys\" WHERE (\"replys\".\"comment_id\" IN (1, 2, 3, 4, 5, 109, 110))";
 						$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 					}
 					foreach($reply->reports AS $report)
@@ -849,10 +849,11 @@ class ModelBaseTest extends BaseTestCase
 		$assertedTree .= '--Comment:2'    . PHP_EOL;
 		$assertedTree .= '--Comment:110'  . PHP_EOL;
 		$assertedTree .= '---Reply:5'     . PHP_EOL;
-		$assertedTree .= '-User:4'        . PHP_EOL;
-		$assertedTree .= '-User:5'        . PHP_EOL;
-		$assertedTree .= '-User:6'        . PHP_EOL;
-		$assertedTree .= '-User:7'        . PHP_EOL;
+		$assertedTree .= '-User:23'        . PHP_EOL;
+		$assertedTree .= '-User:24'        . PHP_EOL;
+		$assertedTree .= '-User:25'        . PHP_EOL;
+		$assertedTree .= '--Comment:1'        . PHP_EOL;
+		$assertedTree .= '-User:26'        . PHP_EOL;
 		$assertedTree .= '--Comment:3'    . PHP_EOL;
 		$assertedTree .= '--Comment:4'    . PHP_EOL;
 		$assertedTree .= '--Comment:5'    . PHP_EOL;
@@ -955,23 +956,23 @@ class ModelBaseTest extends BaseTestCase
 		foreach($users AS $user)
 		{
 			$user->games->calculate($gameModel::id()->max());
-			$sql = "SELECT MAX(\"games\".\"id\") AS \"maximum_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 4, 5, 6, 7)) GROUP BY (\"games\".\"user_id\")";
+			$sql = "SELECT MAX(\"games\".\"id\") AS \"maximum_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 23, 24, 25, 26)) GROUP BY (\"games\".\"user_id\")";
 			$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 			$user->games->calculate($gameModel::id()->count());
-			$sql = "SELECT COUNT(\"games\".\"id\") AS \"count_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 4, 5, 6, 7)) GROUP BY (\"games\".\"user_id\")";
+			$sql = "SELECT COUNT(\"games\".\"id\") AS \"count_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 23, 24, 25, 26)) GROUP BY (\"games\".\"user_id\")";
 			$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 			$user->games->calculate($gameModel::id()->min());
-			$sql = "SELECT MIN(\"games\".\"id\") AS \"minimum_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 4, 5, 6, 7)) GROUP BY (\"games\".\"user_id\")";
+			$sql = "SELECT MIN(\"games\".\"id\") AS \"minimum_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 23, 24, 25, 26)) GROUP BY (\"games\".\"user_id\")";
 			$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 			$user->games->calculate($gameModel::id()->avg());
-			$sql = "SELECT AVG(\"games\".\"id\") AS \"average_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 4, 5, 6, 7)) GROUP BY (\"games\".\"user_id\")";
+			$sql = "SELECT AVG(\"games\".\"id\") AS \"average_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 23, 24, 25, 26)) GROUP BY (\"games\".\"user_id\")";
 			$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 			$user->games->calculate($gameModel::id()->sum());
-			$sql = "SELECT SUM(\"games\".\"id\") AS \"sum_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 4, 5, 6, 7)) GROUP BY (\"games\".\"user_id\")";
+			$sql = "SELECT SUM(\"games\".\"id\") AS \"sum_id\", \"games\".\"user_id\" AS \"user_id\" FROM \"games\" WHERE (\"games\".\"user_id\" IN (1, 2, 3, 23, 24, 25, 26)) GROUP BY (\"games\".\"user_id\")";
 			$this->assertSame($sql, $userModel::getDataSource()->getAdapter()->getLastStatement());
 
 			break;

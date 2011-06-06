@@ -690,7 +690,7 @@ abstract class SqlAdapterBase extends AdapterBase implements SchematicDatabaseIn
 	 */
 	protected function fieldAssignmentStatement($property, $value)
 	{
-		return $this->fieldName($property, TRUE) . '=' . $this->operand($property->serialize($value));
+		return $this->fieldName($property, FALSE) . '=' . $this->operand($property->serialize($value));
 	}
 
 

@@ -366,7 +366,7 @@ class SqliteAdapterTest extends BaseTestCase
 
 		$adapter->update($attributes, $collection);
 
-		$sql = "UPDATE \"users\" SET \"users\".\"description\"='He rules them all' WHERE ((\"users\".\"nickname\" = 'Sniper'))";
+		$sql = "UPDATE \"users\" SET \"description\"='He rules them all' WHERE ((\"users\".\"nickname\" = 'Sniper'))";
 
 		$this->assertSame($sql, $adapter->getLastStatement());
 	}
