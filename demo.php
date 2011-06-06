@@ -237,3 +237,22 @@ $group->name = 'Webmaster';
 // oops lets discard all unsaved changes:
 $group->reload();
 
+
+
+# ------------------------------
+#
+# Lets do some joining...
+#
+# ------------------------------
+
+// Select all comments of users in the Admin group
+Comment::find()->filter( Comment::user()->group()->name()->eq('Admin') )
+
+// This does not work:
+// Group::find()->filter( Group::name()->eq('Admin') )->users()->comments();
+
+// But you could do this:
+Group::hasAndBelongsToMany('comments', array('class' => 'Comment', 'through' => 'users'));
+
+// Now each group knows about their comments:
+Group::find()->one( Group::name()->eq('Admin') )->comments();
