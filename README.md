@@ -9,9 +9,11 @@ The popular Php ORM is [Doctrine2](https://github.com/doctrine/doctrine2), which
 
 When I started building this, my goal was to have an clever Php ORM which is as simple to use as Datamapper. Although Dataphant ist not comparable to Datamapper just because of the difference of the Php syntax and "object model" to Ruby's one, I have a feeling the result is very well done.
 
+Although there is no caching layer at all the performance seems to be pretty good. Unfortunately I have no benchmarks to present.
+
 Since the roadmap for the CMS Dataphant was build for has changed, I have paused the development if ut but I am convinced that there are people out there who like what I made so I offer you to use it, change it, distribute it, fork it, write documentation and send me pull requests.
 
-ave a look at the [demo.php](https://github.com/laszlokorte/Dataphant/blob/master/demo.php) file to get an idea of how to work with the Dataphant
+Have a look at the [demo.php](https://github.com/laszlokorte/Dataphant/blob/master/demo.php) file to get an idea of how to work with the Dataphant.
 
 Some of it's great features:
 -----------------------------
