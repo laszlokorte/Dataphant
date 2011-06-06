@@ -21,7 +21,7 @@ Some of it's greate features:
  * Aggregation Queries
  * Multiple DB connections
 
-Have a look at the [demo.php](/demo.php) file to get an idea of how to work with the Dataphant
+Have a look at the [demo.php](https://github.com/laszlokorte/Dataphant/blob/master/demo.php) file to get an idea of how to work with the Dataphant
 
 Todo List:
 ----------
