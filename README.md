@@ -16,7 +16,7 @@ Since the roadmap for the CMS Dataphant was build for has changed, I have paused
 Have a look at the [demo.php](https://github.com/laszlokorte/Dataphant/blob/master/demo.php) file to get an idea of how to work with the Dataphant.
 
 Some of it's great features:
------------------------------
+----------------------------
 
  * Lazy loading
  * Smart Eager loading (keeps the query count low on nesting depth of loops - even better as ruby's Datamapper does)
@@ -46,3 +46,11 @@ Todo List:
  * Make the whole system compatible with Symfony2 ServiceContainer
   * Try to move all static methods and variables from the ModelBase class into a ModelDefintion object
  * Feature: Lifecycle callbacks
+
+Running the tests
+-----------------
+
+For running the tests you have to patch your PhpUnit Mock library:
+https://github.com/sebastianbergmann/phpunit-mock-objects/pull/25
+
+Alternatively you may change all tests not using mock objects anymore ;)
