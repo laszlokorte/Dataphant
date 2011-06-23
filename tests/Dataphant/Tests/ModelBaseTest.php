@@ -849,11 +849,11 @@ class ModelBaseTest extends BaseTestCase
 		$assertedTree .= '--Comment:2'    . PHP_EOL;
 		$assertedTree .= '--Comment:110'  . PHP_EOL;
 		$assertedTree .= '---Reply:5'     . PHP_EOL;
-		$assertedTree .= '-User:23'        . PHP_EOL;
-		$assertedTree .= '-User:24'        . PHP_EOL;
-		$assertedTree .= '-User:25'        . PHP_EOL;
-		$assertedTree .= '--Comment:1'        . PHP_EOL;
-		$assertedTree .= '-User:26'        . PHP_EOL;
+		$assertedTree .= '-User:23'       . PHP_EOL;
+		$assertedTree .= '-User:24'       . PHP_EOL;
+		$assertedTree .= '-User:25'       . PHP_EOL;
+		$assertedTree .= '--Comment:1'    . PHP_EOL;
+		$assertedTree .= '-User:26'       . PHP_EOL;
 		$assertedTree .= '--Comment:3'    . PHP_EOL;
 		$assertedTree .= '--Comment:4'    . PHP_EOL;
 		$assertedTree .= '--Comment:5'    . PHP_EOL;
