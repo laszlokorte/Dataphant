@@ -246,7 +246,7 @@ $group->reload();
 # ------------------------------
 
 // Select all comments of users in the Admin group
-Comment::find()->filter( Comment::user()->group()->name()->eq('Admin') )
+Comment::find()->filter( Comment::user()->group()->name()->eq('Admin') );
 
 // This does not work:
 // Group::find()->filter( Group::name()->eq('Admin') )->users()->comments();
