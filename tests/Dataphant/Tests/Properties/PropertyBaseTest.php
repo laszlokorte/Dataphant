@@ -158,6 +158,17 @@ class PropertyBaseTest extends BaseTestCase
 		$this->assertSame($value, $operator->getValue());
 	}
 
+	public function testInequalityComparisonCanBePerformed()
+	{
+		$property = $this->getPropertyMock('User', 'password');
+
+		$value = 'geheim';
+		$operator = $property->notEq($value);
+		$this->assertInstanceOf('Dataphant\Query\Comparisons\NotEqualToComparison', $operator);
+		$this->assertSame($property, $operator->getSubject());
+		$this->assertSame($value, $operator->getValue());
+	}
+
 	public function testGreaterThanComparisonCanBePerformed()
 	{
 		$property = $this->getPropertyMock('User', 'age');

@@ -26,6 +26,14 @@ interface ComparableInterface
 	public function eq($value);
 
 	/**
+	 * Not Equals
+	 *
+	 * @param mixed $value the value to compare with.
+	 * @return NotEqualToComparison A comparison object containing the comparable object and the given value.
+	 */
+	public function notEq($value);
+
+	/**
 	 * Greater than
 	 *
 	 * @param integer $value the value to compare with

@@ -67,12 +67,19 @@ abstract class SqlAdapterBase extends AdapterBase implements SchematicDatabaseIn
 	 */
 	static protected $comparisons = array(
 		'Dataphant\Query\Comparisons\EqualToComparison' => ' = ',
+		'Dataphant\Query\Comparisons\NotEqualToComparison' => ' <> ',
 		'Dataphant\Query\Comparisons\LessThanOrEqualToComparison' => ' <= ',
 		'Dataphant\Query\Comparisons\LessThanComparison' => ' < ',
 		'Dataphant\Query\Comparisons\GreaterThanOrEqualToComparison' => ' >= ',
 		'Dataphant\Query\Comparisons\GreaterThanComparison' => ' > ',
 		'Dataphant\Query\Comparisons\LikeComparison' => ' LIKE ',
 		'Dataphant\Query\Comparisons\InEnumComparison' => ' IN '
+	);
+
+
+	static protected $nullComparisons = array(
+		'Dataphant\Query\Comparisons\EqualToComparison' => ' IS ',
+		'Dataphant\Query\Comparisons\NotEqualToComparison' => ' IS NOT '
 	);
 
 
@@ -626,14 +633,15 @@ abstract class SqlAdapterBase extends AdapterBase implements SchematicDatabaseIn
 	 */
 	protected function comparisonStatement($comparison)
 	{
-		if ($comparison instanceof InEnumComparison && count($comparison->getValue()) < 1)
+	  $value = $comparison->getValue();
+
+		if ($comparison instanceof InEnumComparison && count($value) < 1)
 		{
 			return 'NULL';
 		}
 		elseif($comparison->isComparingRelationship())
 		{
 			$relationship = $comparison->getSubject();
-			$value = $comparison->getValue();
 
 			$targetKeys = $relationship->getInverse()->getTargetKeys();
 
@@ -647,8 +655,12 @@ abstract class SqlAdapterBase extends AdapterBase implements SchematicDatabaseIn
 			return $this->operationStatement($conditions);
 		}
 
-
-		return '(' . $this->operand($comparison->getSubject()) . static::$comparisons[get_class($comparison)] . $this->operand($comparison->getValue()) . ')';
+    if($value === NULL) {
+      $operand = static::$nullComparisons[get_class($comparison)];
+    } else {
+      $operand = static::$comparisons[get_class($comparison)];
+    }
+		return '(' . $this->operand($comparison->getSubject()) . $operand . $this->operand($value) . ')';
 
 	}
 
@@ -771,7 +783,7 @@ abstract class SqlAdapterBase extends AdapterBase implements SchematicDatabaseIn
 	 */
 	protected function operand($val)
 	{
-		if(is_scalar($val))
+		if(is_scalar($val) || $val === NULL)
 		{
 			return $this->quote($val);
 		}

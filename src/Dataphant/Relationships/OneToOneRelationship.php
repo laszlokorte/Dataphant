@@ -12,6 +12,7 @@
 namespace Dataphant\Relationships;
 
 use Dataphant\Query\Comparisons\EqualToComparison;
+use Dataphant\Query\Comparisons\NotEqualToComparison;
 use Dataphant\Query\Comparisons\GreaterThanComparison;
 use Dataphant\Query\Comparisons\GreaterThanOrEqualToComparison;
 use Dataphant\Query\Comparisons\LessThanComparison;
@@ -149,6 +150,11 @@ class OneToOneRelationship implements RelationshipInterface
 	public function eq($value)
 	{
 		return new EqualToComparison($this, $value);
+	}
+
+	public function notEq($value)
+	{
+		return new NotEqualToComparison($this, $value);
 	}
 
 
