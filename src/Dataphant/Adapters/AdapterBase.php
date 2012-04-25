@@ -19,7 +19,6 @@ use Dataphant\Utils\Inflector;
  */
 abstract class AdapterBase implements AdapterInterface
 {
-	const QUOTES = '"';
 
 	static protected $defaultOptions = array(
 	);
@@ -172,7 +171,7 @@ abstract class AdapterBase implements AdapterInterface
 		}
 		else
 		{
-			return static::QUOTES . $this->escape_string($value) . static::QUOTES;
+			return $this->getConnection()->quote($value);
 		}
 	}
 
@@ -219,4 +218,6 @@ abstract class AdapterBase implements AdapterInterface
 	{
 		$this->inflector = $inflector;
 	}
+
+	abstract public function getConnection();
 }
