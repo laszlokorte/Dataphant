@@ -261,7 +261,7 @@ class QueryTest extends BaseTestCase
 
 	public function testUnknownOptionsCanNotBeSetViaArrayAccess()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('InvalidArgumentException');
 		$model =  $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 
 		$query = new Query($this->dataSource, $model);
@@ -298,7 +298,7 @@ class QueryTest extends BaseTestCase
 
 	public function testNotExistingOptionsCanNotBeRead()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('InvalidArgumentException');
 		$model =  $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 
 		$query = new Query($this->dataSource, $model);
@@ -316,7 +316,7 @@ class QueryTest extends BaseTestCase
 		$query = new Query($this->dataSource, $model);
 		$fields = array($model::name(), $model::age());
 
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('BadMethodCallException');
 		unset($query['fields']);
 	}
 

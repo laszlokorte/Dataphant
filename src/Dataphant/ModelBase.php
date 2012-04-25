@@ -45,6 +45,7 @@ use Dataphant\Exceptions\UnknownPropertyException;
 use Dataphant\Exceptions\StiRestrictionException;
 use Dataphant\Exceptions\UndefinedPropertyException;
 use Dataphant\Exceptions\PropertyAccessException;
+use Dataphant\Exceptions\SerialAlreadyDefinedException;
 
 abstract class ModelBase implements ModelInterface, RecordInterface
 {
@@ -471,7 +472,7 @@ abstract class ModelBase implements ModelInterface, RecordInterface
 		if( isset(static::$serial[$calledClass]))
 		{
 			# TODO: use a more specific exception
-			throw new \Exception('The serial has already been set and is in use. You can not change it anymore.');
+			throw new SerialAlreadyDefinedException('The serial has already been set and is in use. You can not change it anymore.');
 		}
 		static::$serial[$calledClass] = $property;
 	}
@@ -801,11 +802,11 @@ abstract class ModelBase implements ModelInterface, RecordInterface
 	static public function getBaseModel()
 	{
 		$calledClass = get_called_class();
-		if( ! array_key_exists($calledClass, static::$baseModel))
+		if( ! isset(static::$baseModel[$calledClass]))
 		{
 			$baseModel = get_parent_class($calledClass);
 
-			if(get_parent_class($baseModel))
+			if($baseModel !== __CLASS__)
 			{
 				if($secondBase = $baseModel::getBaseModel())
 				{

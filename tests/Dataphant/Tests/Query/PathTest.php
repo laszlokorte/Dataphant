@@ -94,7 +94,7 @@ class PathTest extends BaseTestCase
 
 	public function testMethodCallsNotMatchingAnythingResultInAnException()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('BadMethodCallException');
 
 		$path = new Path(array($this->commentUserRelationship));
 		$nicknameProperty = $path->foobar();

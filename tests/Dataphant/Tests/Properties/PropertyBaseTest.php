@@ -67,14 +67,14 @@ class PropertyBaseTest extends BaseTestCase
 
 	public function testDefaultValueIsNullByDefault()
 	{
-		$record = $this->getMock('Dataphant\RecordInterface', array('phpunitbug'));
+		$record = $this->getMock('Dataphant\RecordInterface');
 		$property = $this->getPropertyMock('User', 'nickname');
 		$this->assertSame(NULL, $property->getDefaultValueFor($record));
 	}
 
 	public function testDefaultValueCanBeSetViaOptions()
 	{
-		$record = $this->getMock('Dataphant\RecordInterface', array('phpunitbug'));
+		$record = $this->getMock('Dataphant\RecordInterface');
 
 		$defaultTitle = 'untitled document';
 

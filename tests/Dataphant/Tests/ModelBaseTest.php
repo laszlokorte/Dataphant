@@ -108,7 +108,7 @@ class ModelBaseTest extends BaseTestCase
 		$oldProp = $modelClass::defineProperty('nickname');
 		$this->assertSame($oldProp, $modelClass::nickname());
 
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('Dataphant\\Exceptions\\DuplicatePropertyException');
 		$modelClass::defineProperty('nickname');
 	}
 
@@ -202,7 +202,7 @@ class ModelBaseTest extends BaseTestCase
 
 	public function testCallingSomeStupidStaticMethodThrowsAnException()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('BadMethodCallException');
 
 		$userClass = $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 		$userClass::foobar();
@@ -244,7 +244,7 @@ class ModelBaseTest extends BaseTestCase
 
 	public function testScopeCanNotBeCollectionOfAnOtherModel()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('InvalidArgumentException');
 
 		$modelClass = $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 		$modelClass::defineScope('activeUsers', 'foo');
@@ -305,7 +305,7 @@ class ModelBaseTest extends BaseTestCase
 
 	public function testSerialCanNotBeSetTwice()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('Dataphant\\Exceptions\\SerialAlreadyDefinedException');
 		$modelClass = $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 
 		$modelClass::defineProperty('name', array('type' => 'Serial'));
@@ -334,7 +334,7 @@ class ModelBaseTest extends BaseTestCase
 
 	public function testARecordsAttributeToBeGetHaveToBeARegisteredProperty()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('Dataphant\\Exceptions\\UndefinedPropertyException');
 
 		$modelClass = $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 		$record = $modelClass::build();
@@ -362,7 +362,7 @@ class ModelBaseTest extends BaseTestCase
 
 	public function testARecordsAttributeToBeSetHaveToBeARegisteredProperty()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('Dataphant\\Exceptions\\UndefinedPropertyException');
 
 		$modelClass = $this->getMockClass('Dataphant\\ModelBase', array(uniqid('method')));
 		$record = $modelClass::build();
